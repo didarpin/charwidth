@@ -178,7 +178,6 @@ if __name__ == "__main__":
 	cps = MakeCodepoints()
 
 	fields = {
-		"width0": MergeCodepoint((cp for cp in cps if cp.width == 0)),
 		"width1": MergeCodepoint((cp for cp in cps if cp.width == 1)),
 		"width2": MergeCodepoint((cp for cp in cps if cp.width == 2)),
 	}

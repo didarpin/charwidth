@@ -1763,7 +1763,6 @@ static inline bool CW_IsInRanges(CW_Node const* ranges, cw_u32 size, cw_c32 c) {
 }
 
 static inline cw_u32 CW_CharWidth(cw_c32 c) {
-	if (CW_IsInRanges(CW_kWidth0, 791, c)) return 0;
 	if (CW_IsInRanges(CW_kWidth1, 808, c)) return 1;
 	if (CW_IsInRanges(CW_kWidth2, 123, c)) return 2;
 	return 0;
