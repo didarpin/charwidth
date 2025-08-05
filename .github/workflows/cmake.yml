@@ -1,0 +1,22 @@
+name: "cmake"
+run-name: "cmake"
+
+on:
+  push:
+    branches:
+      - "master"
+  pull_request:
+
+jobs:
+  build:
+    runs-on: "ubuntu-22.04"
+    name: "ubuntu-22.04 test"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: |
+          mkdir build
+          cmake -S . -B build -Dcharwidth_project=ON -Dcharwidth_project_lib=OFF -DCMAKE_INSTALL_PREFIX=tmp/install
+          cmake --build build
+      - name: Test
+        run: ctest --test-dir build -V

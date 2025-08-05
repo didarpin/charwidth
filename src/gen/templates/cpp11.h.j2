@@ -1,0 +1,67 @@
+// Copyright (c) 2025 didarpin
+// SPDX-License-Identifier: MIT
+
+#pragma once
+
+#include <algorithm>
+#include <array>
+#include <cstdint>
+
+namespace charwidth {
+
+using c32 = char32_t;
+using u32 = uint32_t;
+
+}
+
+namespace charwidth {
+namespace details {
+
+struct Node {
+	c32 low;
+	c32 high;
+};
+
+class G {
+public:
+	static constexpr std::array<Node, {{ width0 | length }}> kWidth0 = {
+		{% for n in width0 %}
+		{{ "Node{" }}{{ "0x%x" | format(n[0]) }}, {{ "0x%x" | format(n[1]) }}{{ "}" }},
+		{% endfor %}
+	};
+
+	static constexpr std::array<Node, {{ width1 | length }}> kWidth1 = {
+		{% for n in width1 %}
+		{{ "Node{" }}{{ "0x%x" | format(n[0]) }}, {{ "0x%x" | format(n[1]) }}{{ "}" }},
+		{% endfor %}
+	};
+	
+	static constexpr std::array<Node, {{ width2 | length }}> kWidth2 = {
+		{% for n in width2 %}
+		{{ "Node{" }}{{ "0x%x" | format(n[0]) }}, {{ "0x%x" | format(n[1]) }}{{ "}" }},
+		{% endfor %}
+	};
+};
+
+constexpr std::array<Node, {{ width0 | length }}> G::kWidth0;
+constexpr std::array<Node, {{ width1 | length }}> G::kWidth1;
+constexpr std::array<Node, {{ width2 | length }}> G::kWidth2;
+
+inline bool IsInRanges(Node const* ranges, u32 size, c32 c) {
+	auto iter = std::lower_bound(ranges, ranges + size, c, [](Node const& v, c32 c) { return v.high < c; });
+	return (iter != (ranges + size)) && (c >= iter->low);
+}
+
+}
+}
+
+namespace charwidth {
+
+inline u32 CharWidth(c32 c) {
+	if (details::IsInRanges(details::G::kWidth0.data(), details::G::kWidth0.size(), c)) return 0;
+	if (details::IsInRanges(details::G::kWidth1.data(), details::G::kWidth1.size(), c)) return 1;
+	if (details::IsInRanges(details::G::kWidth2.data(), details::G::kWidth2.size(), c)) return 2;
+	return 0;
+}
+
+}

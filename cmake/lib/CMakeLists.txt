@@ -1,0 +1,42 @@
+INCLUDE(CMakePackageConfigHelpers)
+
+SET(name "charwidth")
+SET(target "${name}")
+SET(src_dir "${work_dir}/src")
+
+PROJECT("${name}" VERSION "${version}" LANGUAGES C CXX)
+
+################################################################
+
+SET(headers
+	"charwidth_c11.h"
+	"charwidth_c90.h"
+	"charwidth_c99.h"
+	"charwidth_cpp11.h"
+	"charwidth_cpp17.h")
+DP_Message(INFO "headers:")
+FOREACH(header ${headers})
+	DP_Message(INFO "    ${header}")
+ENDFOREACH()
+
+########
+
+ADD_LIBRARY("${target}" INTERFACE)
+
+########
+
+INSTALL(TARGETS "${target}"
+	EXPORT "${name}-targets"
+	INCLUDES DESTINATION "include")
+
+DP_InstallFiles("${src_dir}" "include/${name}" "${headers}")
+
+INSTALL(EXPORT "${name}-targets"
+	FILE "${name}-targets.cmake"
+	NAMESPACE "${name}::"
+	DESTINATION "lib/cmake/${name}")
+
+WRITE_BASIC_PACKAGE_VERSION_FILE("${name}-config-version.cmake" COMPATIBILITY AnyNewerVersion)
+
+INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/${name}-config-version.cmake" DESTINATION "lib/cmake/${name}")
+INSTALL(FILES "${work_dir}/cmake/lib/${name}-config.cmake" DESTINATION "lib/cmake/${name}")
