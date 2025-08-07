@@ -21,7 +21,7 @@ ENDFOREACH()
 ADD_EXECUTABLE("${target}" "${files}")
 
 SET(precompile_headers)
-SET(compile_opts "-Wall")
+#SET(compile_opts "-Wall")
 SET(defs)
 SET(include_dirs "${work_dir}")
 SET(link_opts)
