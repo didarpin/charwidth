@@ -11,14 +11,12 @@ OPTION(charwidth_project "ON: enable all project, OFF: disable all project" ON)
 OPTION(charwidth_project_lib "Enable library project" "${charwidth_project}")
 OPTION(charwidth_project_test_c90 "Enable test_c90 project" "${charwidth_project}")
 OPTION(charwidth_project_test_c99 "Enable test_c99 project" "${charwidth_project}")
-OPTION(charwidth_project_test_c11 "Enable test_c11 project" "${charwidth_project}")
 OPTION(charwidth_project_test_cpp11 "Enable test_cpp11 project" "${charwidth_project}")
 OPTION(charwidth_project_test_cpp17 "Enable test_cpp17 project" "${charwidth_project}")
 
 SET(test_options
 	"charwidth_project_test_c90"
 	"charwidth_project_test_c99"
-	"charwidth_project_test_c11"
 	"charwidth_project_test_cpp11"
 	"charwidth_project_test_cpp17")
 
@@ -41,10 +39,6 @@ ENDIF()
 
 IF(charwidth_project_test_c99)
 	ADD_SUBDIRECTORY("cmake/test_c99")
-ENDIF()
-
-IF(charwidth_project_test_c11)
-	ADD_SUBDIRECTORY("cmake/test_c11")
 ENDIF()
 
 IF(charwidth_project_test_cpp11)
