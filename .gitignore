@@ -2,6 +2,7 @@
 
 !/.gitignore   
 !/CMakeLists.txt
+!/README.md
 !/version
 
 !/.github/
