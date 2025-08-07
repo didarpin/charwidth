@@ -1,8 +1,9 @@
 // Copyright (c) 2025 didarpin
 // SPDX-License-Identifier: MIT
 
+#include <charwidth_c90.h>
+
 #include "s_c.h"
-#include "src/charwidth_c90.h"
 
 int main(void) {
 	ASSERT(CW_CharWidth(0) == 0);

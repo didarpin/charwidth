@@ -1,8 +1,9 @@
 // Copyright (c) 2025 didarpin
 // SPDX-License-Identifier: MIT
 
+#include <charwidth_cpp17.h>
+
 #include "s_cpp.h"
-#include "src/charwidth_cpp17.h"
 
 int main(void) {
 	ASSERT(charwidth::CharWidth(0) == 0);
