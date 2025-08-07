@@ -10,8 +10,8 @@ on:
 
 jobs:
   build:
-    runs-on: "windows-latest"
-    name: "windows-latest test"
+    runs-on: "macos-latest"
+    name: "macos-latest test"
     steps:
       - uses: actions/checkout@v4
       - name: Build
