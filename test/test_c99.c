@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: MIT
 
 #include "s_c.h"
-#include "../src/charwidth_c99.h"
+#include "src/charwidth_c99.h"
 
-int main() {
+int main(void) {
 	ASSERT(CW_CharWidth(0) == 0);
 	ASSERT(CW_CharWidth(1) == 0);
 	ASSERT(CW_CharWidth('a') == 1);

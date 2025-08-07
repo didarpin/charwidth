@@ -3,7 +3,7 @@
 
 #pragma once
 
-void CW_CheckIntSize() {
+void CW_CheckIntSize(void) {
 	static char var[sizeof(int) == 4 ? 1 : -1];
 	(void)var;
 }

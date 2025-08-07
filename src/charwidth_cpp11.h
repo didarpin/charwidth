@@ -965,7 +965,7 @@ public:
 constexpr std::array<Node, 808> G::kWidth1;
 constexpr std::array<Node, 123> G::kWidth2;
 
-inline bool IsInRanges(Node const* ranges, u32 size, c32 c) {
+inline bool IsInRanges(Node const* ranges, size_t size, c32 c) {
 	auto iter = std::lower_bound(ranges, ranges + size, c, [](Node const& v, c32 c) { return v.high < c; });
 	return (iter != (ranges + size)) && (c >= iter->low);
 }

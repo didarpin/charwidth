@@ -29,6 +29,8 @@ FOREACH(opt IN LISTS test_options)
 	ENDIF()
 ENDFOREACH()
 
+DP_SetSourceCodeUtf8()
+
 IF(charwidth_project_lib)
 	ADD_SUBDIRECTORY("cmake/lib")
 ENDIF()
