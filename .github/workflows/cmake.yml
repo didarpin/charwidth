@@ -17,7 +17,7 @@ jobs:
       - name: Build
         run: |
           mkdir build
-          cmake -S . -B build CMAKE_VERBOSE_MAKEFILE=ON -Dcharwidth_project=ON -Dcharwidth_project_lib=OFF
+          cmake -S . -B build -DCMAKE_VERBOSE_MAKEFILE=ON -Dcharwidth_project=ON -Dcharwidth_project_lib=OFF
           cmake --build build
       - name: Test
         run: ctest --test-dir build -V
