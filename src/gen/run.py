@@ -61,16 +61,6 @@ def ReadFile(url):
 
 
 def SetGeneralWidths(cps):
-	def InWidth0Rgs(cp):
-		for (cp_min, cp_max) in width0_rgs:
-			if cp_min <= cp <= cp_max: return True
-		return False
-
-	width0_rgs = [(0xd800, 0xdfff), (0xfdd0, 0xfdef), (0x1160, 0x11ff), (0xd7b0, 0xd7ff)]
-	for i in range(0, 17):
-		cp = 0x10000 * i + 0xfffe
-		width0_rgs.append((cp, cp + 1))
-
 	fields_first = None
 	for line in unicode_data:
 		fields = line.strip().split(";")
@@ -87,9 +77,8 @@ def SetGeneralWidths(cps):
 			rg = ToRange(fields[0])
 
 		for cp in range(rg[0], rg[1] + 1):
-			if InWidth0Rgs(cp): continue
-			if fields[2] in ["Cc", "Cf", "Zl", "Zp", "Mn", "Mc", "Me"]: continue
-			cps[cp].width = 1
+			if fields[2] not in ["Cs", "Cc", "Cf", "Zl", "Zp", "Mn", "Mc", "Me"]:
+				cps[cp].width = 1
 
 
 def SetEawWidths(cps):
@@ -106,27 +95,13 @@ def SetEawWidths(cps):
 		elif prop in ["F", "W"]:
 			SetRangeWidth(rg, 2, cps)
 
-	rgs = (
-		(0x3400, 0x4dbf),
-		(0x4e00, 0x9fff),
-		(0xf900, 0xfaff),
-		(0x20000, 0x2fffd),
-		(0x30000, 0x3fffd),
-	)
-
-	for rg in rgs:
-		SetRangeWidth(rg, 2, cps)
-
 
 def SetEmojiWidths(cps):
 	for line in emoji_data:
 		rg, prop = ParseEawOrEmojiLine(line)
 		if prop == "Emoji_Presentation":
 			for cp in range(rg[0], rg[1] + 1):
-				if 0x1f1e6 <= cp <= 0x1f1ff:
-					cps[cp].width = 1
-				else:
-					cps[cp].width = 2
+				cps[cp].width = 2
 
 
 def SetRangeWidth(rg, width, cps):
@@ -169,6 +144,25 @@ def MakeCodepoints():
 	SetGeneralWidths(cps)
 	SetEawWidths(cps)
 	SetEmojiWidths(cps)
+
+	# fixed some special characters
+	rgs = (
+		(0x1160, 0x11ff),
+		(0xd7b0, 0xd7ff)
+	)
+	for i in range(0, 17):
+		cp = 0x10000 * i + 0xfffe
+		rgs.append((cp, cp + 1))
+	for rg in rgs:
+		SetRangeWidth(rg, 0, cps)
+
+	rgs = (
+		(0x4dc0, 0x4dff),
+		(0x1f1e6, 0x1f1ff),
+	)
+	for rg in rgs:
+		SetRangeWidth(rg, 1, cps)
+
 	return cps
 
 
