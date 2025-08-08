@@ -20,7 +20,7 @@ jobs:
       - name: Build
         run: |
           mkdir build
-          cmake -S . -B build -DCMAKE_VERBOSE_MAKEFILE=ON -DBUILD_TYPE=Release -Dcharwidth_project=ON -Dcharwidth_project_lib=OFF
-          cmake --build build --config Release
+          cmake -S . -B build -DCMAKE_VERBOSE_MAKEFILE=ON -DBUILD_TYPE=Debug -Dcharwidth_project=ON -Dcharwidth_project_lib=OFF
+          cmake --build build --config Debug
       - name: Test
-        run: ctest --test-dir build -C Release -V
+        run: ctest --test-dir build -C Debug -V
