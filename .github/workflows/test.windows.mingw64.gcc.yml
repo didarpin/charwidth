@@ -1,0 +1,37 @@
+name: test.windows.mingw64.gcc
+run-name: test.windows.mingw64.gcc
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  job1:
+    runs-on: windows-latest
+    name: windows-latest MSYS2-MINGW64 test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup MSYS2-MINGW64
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: >-
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-cmake
+            make
+      - name: Build
+        shell: msys2 {0}
+        run: |
+          mkdir build
+          cmake -S . -B build -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE=Release -Dcharwidth_project=ON -Dcharwidth_project_lib=OFF
+          cmake --build build
+      - name: Test
+        shell: msys2 {0}
+        run: ctest --test-dir build -V
+
+

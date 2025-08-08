@@ -1,0 +1,24 @@
+name: test.macos.apple_clang
+run-name: test.macos.apple_clang
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  job1:
+    runs-on: macos-latest
+    name: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Build
+        run: |
+          mkdir build
+          cmake -S . -B build -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE=Release -Dcharwidth_project=ON -Dcharwidth_project_lib=OFF
+          cmake --build build
+      - name: Test
+        run: ctest --test-dir build -V
