@@ -21,7 +21,7 @@ jobs:
   #      - name: Build
   #        run: |
   #          mkdir build
-  #          cmake -S . -B build -DCMAKE_VERBOSE_MAKEFILE=ON -DBUILD_TYPE=Release -Dcharwidth_project=ON -Dcharwidth_project_lib=OFF
+  #          cmake -S . -B build -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE=Release -Dcharwidth_project=ON -Dcharwidth_project_lib=OFF
   #          cmake --build build --config Release
   #      - name: Test
   #        run: ctest --test-dir build -C Release -V
@@ -44,7 +44,7 @@ jobs:
         shell: msys2 {0}
         run: |
           mkdir build
-          cmake -S . -B build -DCMAKE_VERBOSE_MAKEFILE=ON -DBUILD_TYPE=Release -Dcharwidth_project=ON -Dcharwidth_project_lib=OFF
+          cmake -S . -B build -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE=Release -Dcharwidth_project=ON -Dcharwidth_project_lib=OFF
           cmake --build build --config Release
       - name: Test
         shell: msys2 {0}
