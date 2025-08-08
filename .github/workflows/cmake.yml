@@ -9,18 +9,46 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    name: ${{ matrix.os }} test
+  #  build:
+  #    strategy:
+  #      matrix:
+  #        os: [ubuntu-latest, windows-latest, macos-latest]
+  #    runs-on: ${{ matrix.os }}
+  #    name: ${{ matrix.os }} test
+  #    steps:
+  #      - name: Checkout code
+  #        uses: actions/checkout@v4
+  #      - name: Build
+  #        run: |
+  #          mkdir build
+  #          cmake -S . -B build -DCMAKE_VERBOSE_MAKEFILE=ON -DBUILD_TYPE=Release -Dcharwidth_project=ON -Dcharwidth_project_lib=OFF
+  #          cmake --build build --config Release
+  #      - name: Test
+  #        run: ctest --test-dir build -C Release -V
+
+    build:
+    runs-on: windows-latest
+    name: windows-latest MinGW test
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup MSYS2
+        uses: msys2/setup-msys2@v2
+        with: 
+          update: true
+          install:
+            - mingw-w64-x86_64-gcc
+            - mingw-w64-x86_64-g++
+            - mingw-w64-x86_64-cmake
+            - make
       - name: Build
+        shell: msys2 {0}
         run: |
           mkdir build
-          cmake -S . -B build -DCMAKE_VERBOSE_MAKEFILE=ON -DBUILD_TYPE=Debug -Dcharwidth_project=ON -Dcharwidth_project_lib=OFF
-          cmake --build build --config Debug
+          cmake -S . -B build -DCMAKE_VERBOSE_MAKEFILE=ON -DBUILD_TYPE=Release -Dcharwidth_project=ON -Dcharwidth_project_lib=OFF
+          cmake --build build --config Release
       - name: Test
-        run: ctest --test-dir build -C Debug -V
+        shell: msys2 {0}
+        run: ctest --test-dir build -C Release -V
+
+

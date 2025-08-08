@@ -11,6 +11,6 @@ int main(void) {
 	ASSERT(CW_CharWidth(0x7f) == 0);
 	ASSERT(CW_CharWidth(0x4e16) == 2);
 	ASSERT(CW_CharWidth(0x1f191) == 2);
-	fprintf(stderr, "test_c90 pass\n");
+	fprintf(stderr, "test_c90 passed\n");
 	return 0;
 }

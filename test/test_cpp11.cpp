@@ -11,6 +11,6 @@ int main(void) {
 	ASSERT(charwidth::CharWidth(0x7f) == 0);
 	ASSERT(charwidth::CharWidth(U'世') == 2);
 	ASSERT(charwidth::CharWidth(0x1f191) == 2);
-	std::cerr << "test_cpp11 pass" << std::endl;
+	std::cerr << "test_cpp11 passed" << std::endl;
 	return 0;
 }
