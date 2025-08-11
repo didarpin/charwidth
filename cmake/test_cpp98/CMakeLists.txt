@@ -7,6 +7,7 @@ PROJECT("test" VERSION "${version}" LANGUAGES CXX)
 
 DP_TryUseCcache()
 DP_TrySetCxxStandard(98)
+SET(CXX_STANDARD_REQUIRED ON)
 
 ################################################################
 
