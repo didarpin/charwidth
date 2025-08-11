@@ -7,7 +7,7 @@ PROJECT("test" VERSION "${version}" LANGUAGES C)
 
 DP_TryUseCcache()
 DP_TrySetCStandard(90)
-SET(C_STANDARD_REQUIRED ON)
+SET(CMAKE_C_EXTENSIONS OFF)
 
 ################################################################
 

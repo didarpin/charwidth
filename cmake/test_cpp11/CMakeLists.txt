@@ -7,7 +7,7 @@ PROJECT("test" VERSION "${version}" LANGUAGES CXX)
 
 DP_TryUseCcache()
 DP_TrySetCxxStandard(11)
-SET(CXX_STANDARD_REQUIRED ON)
+SET(CMAKE_CXX_EXTENSIONS OFF)
 
 ################################################################
 
