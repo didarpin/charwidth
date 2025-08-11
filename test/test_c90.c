@@ -1,5 +1,7 @@
-// Copyright (c) 2025 didarpin
-// SPDX-License-Identifier: MIT
+/*
+	Copyright (c) 2025 didarpin
+	SPDX-License-Identifier: MIT
+*/
 
 #include "s_c.h"
 #include "../src/charwidth_c90.h"
