@@ -146,20 +146,20 @@ def MakeCodepoints():
 	SetEmojiWidths(cps)
 
 	# fixed some special characters
-	rgs = (
+	rgs = [
 		(0x1160, 0x11ff),
 		(0xd7b0, 0xd7ff)
-	)
+	]
 	for i in range(0, 17):
 		cp = 0x10000 * i + 0xfffe
 		rgs.append((cp, cp + 1))
 	for rg in rgs:
 		SetRangeWidth(rg, 0, cps)
 
-	rgs = (
+	rgs = [
 		(0x4dc0, 0x4dff),
 		(0x1f1e6, 0x1f1ff),
-	)
+	]
 	for rg in rgs:
 		SetRangeWidth(rg, 1, cps)
 

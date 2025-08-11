@@ -59,7 +59,7 @@ FUNCTION(DP_Any r v)
 	SET(${r} FALSE PARENT_SCOPE)
 ENDFUNCTION()
 
-FUNCTION(DP_SetSourceCodeUtf8)
+FUNCTION(DP_SetSourceCodeFileEncodingUtf8)
 	IF(MSVC)
 		ADD_COMPILE_OPTIONS("/utf-8")
 	ENDIF()

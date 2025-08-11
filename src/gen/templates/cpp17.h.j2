@@ -4,13 +4,10 @@
 #pragma once
 
 #include <algorithm>
-#include <array>
-#include <cstdint>
 
 namespace charwidth {
 
 using c32 = char32_t;
-using u32 = uint32_t;
 
 }
 
@@ -21,15 +18,15 @@ struct Node {
 	c32 high;
 };
 
-inline constexpr std::array<Node, {{ width1 | length }}> kWidth1 = {
+inline constexpr Node kWidth1[{{ width1 | length }}] = {
 	{% for n in width1 %}
-	{{ "Node{" }}{{ "0x%x" | format(n[0]) }}, {{ "0x%x" | format(n[1]) }}{{ "}" }},
+	{{ "{" }}{{ "0x%x" | format(n[0]) }}, {{ "0x%x" | format(n[1]) }}{{ "}" }},
 	{% endfor %}
 };
 
-inline constexpr std::array<Node, {{ width2 | length }}> kWidth2 = {
+inline constexpr Node kWidth2[{{ width2 | length }}] = {
 	{% for n in width2 %}
-	{{ "Node{" }}{{ "0x%x" | format(n[0]) }}, {{ "0x%x" | format(n[1]) }}{{ "}" }},
+	{{ "{" }}{{ "0x%x" | format(n[0]) }}, {{ "0x%x" | format(n[1]) }}{{ "}" }},
 	{% endfor %}
 };
 
@@ -42,9 +39,9 @@ inline bool IsInRanges(Node const* ranges, size_t size, c32 c) {
 
 namespace charwidth {
 
-inline u32 CharWidth(c32 c) {
-	if (details::IsInRanges(details::kWidth1.data(), details::kWidth1.size(), c)) return 1;
-	if (details::IsInRanges(details::kWidth2.data(), details::kWidth2.size(), c)) return 2;
+inline int CharWidth(c32 c) {
+	if (details::IsInRanges(details::kWidth1, {{ width1 | length }}, c)) return 1;
+	if (details::IsInRanges(details::kWidth2, {{ width2 | length }}, c)) return 2;
 	return 0;
 }
 

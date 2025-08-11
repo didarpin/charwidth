@@ -14,7 +14,7 @@ typedef struct CW_Node {
 	cw_c32 high;
 } CW_Node;
 
-static CW_Node const CW_kWidth1[808] = {
+static CW_Node const CW_kWidth1[809] = {
 	{0x20, 0x7e},
 	{0xa0, 0x377},
 	{0x37a, 0x37f},
@@ -344,6 +344,7 @@ static CW_Node const CW_kWidth1[808] = {
 	{0x2e00, 0x2e5d},
 	{0x303f, 0x303f},
 	{0x3248, 0x324f},
+	{0x4dc0, 0x4dff},
 	{0xa4d0, 0xa62b},
 	{0xa640, 0xa66e},
 	{0xa673, 0xa673},
@@ -825,7 +826,7 @@ static CW_Node const CW_kWidth1[808] = {
 	{0x100000, 0x10fffd},
 };
 
-static CW_Node const CW_kWidth2[123] = {
+static CW_Node const CW_kWidth2[124] = {
 	{0x1100, 0x115f},
 	{0x231a, 0x231b},
 	{0x2329, 0x232a},
@@ -874,7 +875,8 @@ static CW_Node const CW_kWidth2[123] = {
 	{0x3190, 0x31e5},
 	{0x31ef, 0x321e},
 	{0x3220, 0x3247},
-	{0x3250, 0xa48c},
+	{0x3250, 0x4dbf},
+	{0x4e00, 0xa48c},
 	{0xa490, 0xa4c6},
 	{0xa960, 0xa97c},
 	{0xac00, 0xd7a3},
@@ -951,10 +953,10 @@ static CW_Node const CW_kWidth2[123] = {
 	{0x30000, 0x3fffd},
 };
 
-static inline bool CW_IsInRanges(CW_Node const* ranges, cw_u32 size, cw_c32 c) {
-	cw_u32 low = 0;
-	cw_u32 high = size;
-	cw_u32 mid;
+static inline bool CW_IsInRanges(CW_Node const* ranges, size_t size, cw_c32 c) {
+	size_t low = 0;
+	size_t high = size;
+	size_t mid;
 	if (c < ranges[0].low) return false;
 	if (c > ranges[size - 1].high) return false;
 	while (1) {
@@ -967,8 +969,8 @@ static inline bool CW_IsInRanges(CW_Node const* ranges, cw_u32 size, cw_c32 c) {
 	return false;
 }
 
-static inline cw_u32 CW_CharWidth(cw_c32 c) {
-	if (CW_IsInRanges(CW_kWidth1, 808, c)) return 1;
-	if (CW_IsInRanges(CW_kWidth2, 123, c)) return 2;
+static inline int CW_CharWidth(cw_c32 c) {
+	if (CW_IsInRanges(CW_kWidth1, 809, c)) return 1;
+	if (CW_IsInRanges(CW_kWidth2, 124, c)) return 2;
 	return 0;
 }

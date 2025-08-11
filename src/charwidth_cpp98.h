@@ -3,20 +3,34 @@
 
 #pragma once
 
-void CW_EnsureIntSize4(void) {
+#include <algorithm>
+
+namespace charwidth {
+
+void EnsureIntSize4(void) {
 	static char var[sizeof(int) == 4 ? 1 : -1];
 	(void)var;
 }
 
-typedef unsigned int cw_u32;
-typedef unsigned int cw_c32;
+typedef unsigned int c32;
 
-typedef struct CW_Node {
-	cw_c32 low;
-	cw_c32 high;
-} CW_Node;
+}
 
-static CW_Node const cw_kWidth1[809] = {
+namespace charwidth {
+namespace details {
+
+struct Node {
+	c32 low;
+	c32 high;
+};
+
+class G {
+public:
+	static const Node kWidth1[809];
+	static const Node kWidth2[124];
+};
+
+const Node G::kWidth1[809] = {
 	{0x20, 0x7e},
 	{0xa0, 0x377},
 	{0x37a, 0x37f},
@@ -828,7 +842,7 @@ static CW_Node const cw_kWidth1[809] = {
 	{0x100000, 0x10fffd},
 };
 
-static CW_Node const cw_kWidth2[124] = {
+const Node G::kWidth2[124] = {
 	{0x1100, 0x115f},
 	{0x231a, 0x231b},
 	{0x2329, 0x232a},
@@ -955,24 +969,24 @@ static CW_Node const cw_kWidth2[124] = {
 	{0x30000, 0x3fffd},
 };
 
-static int CW_IsInRanges(CW_Node const* ranges, size_t size, cw_c32 c) {
-	size_t low = 0;
-	size_t high = size;
-	size_t mid;
-	if (c < ranges[0].low) return 0;
-	if (c > ranges[size - 1].high) return 0;
-	while (1) {
-		mid = ((high - low) / 2) + low;
-		if ((c >= ranges[mid].low) && (c <= ranges[mid].high)) return 1;
-		if (mid == low) return 0;
-		if (c < ranges[mid].low) high = mid;
-		else low = mid;
-	}
+inline bool Compare(Node const& v, c32 c) {
+	return v.high < c;
+}
+
+inline bool IsInRanges(Node const* ranges, size_t size, c32 c) {
+	Node const* iter = std::lower_bound(ranges, ranges + size, c, Compare);
+	return (iter != (ranges + size)) && (c >= iter->low);
+}
+
+}
+}
+
+namespace charwidth {
+
+inline int CharWidth(c32 c) {
+	if (details::IsInRanges(details::G::kWidth1, 809, c)) return 1;
+	if (details::IsInRanges(details::G::kWidth2, 124, c)) return 2;
 	return 0;
 }
 
-static int CW_CharWidth(cw_c32 c) {
-	if (CW_IsInRanges(cw_kWidth1, 809, c)) return 1;
-	if (CW_IsInRanges(cw_kWidth2, 124, c)) return 2;
-	return 0;
 }

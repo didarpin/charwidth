@@ -9,9 +9,9 @@ PROJECT("${name}" VERSION "${version}" LANGUAGES C CXX)
 ################################################################
 
 SET(headers
-	"charwidth_c11.h"
 	"charwidth_c90.h"
 	"charwidth_c99.h"
+	"charwidth_cpp98.h"
 	"charwidth_cpp11.h"
 	"charwidth_cpp17.h")
 DP_Message(INFO "headers:")
