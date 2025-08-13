@@ -51,4 +51,4 @@ INSTALL(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/test_cpp17" DESTINATION ".")
 
 ########
 
-ADD_TEST(NAME test_cpp17 COMMAND $<TARGET_FILE:${target}>)
+ADD_TEST(NAME test_cpp17 COMMAND $<TARGET_FILE:${target}> "${test_dir}/data")

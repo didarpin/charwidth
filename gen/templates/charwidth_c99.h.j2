@@ -1,0 +1,58 @@
+/*
+	Copyright (c) 2025 didarpin
+	SPDX-License-Identifier: MIT
+*/
+
+#pragma once
+
+#include <stdbool.h>
+
+#include "def.h"
+#include "type_c99.h"
+
+typedef struct _CW_Node {
+	cw_c32 low;
+	cw_c32 high;
+} _CW_Node;
+{% for version in versions %}
+
+#if CW_ENABLE_{{ version | VersionV }} == 1
+#include "{{ version }}/c99.h"
+#endif
+{% endfor %}
+
+#if defined(_MSC_VER)
+    #define UNUSED __declspec(unused)
+#else
+    #define UNUSED __attribute__((unused))
+#endif
+
+static CW_Version _cw_version = CW_V_None;
+
+UNUSED static inline void CW_SetVersion(CW_Version version) {
+	_cw_version = version;
+}
+
+UNUSED static inline int CW_SetAmbiguousWidth(int w) {
+	switch (_cw_version) {
+{% for version in versions %}
+#if CW_ENABLE_{{ version | VersionV }} == 1
+	case CW_V_{{ version | VersionV }}: return _CW_{{ version | VersionV }}_SetAmbiguousWidth(w), 0;
+#endif
+
+{% endfor %}
+	default: return -1;
+	}
+}
+
+UNUSED static inline int CW_CharWidth(cw_c32 c) {
+	switch (_cw_version) {
+{% for version in versions %}
+#if CW_ENABLE_{{ version | VersionV }} == 1
+	case CW_V_{{ version | VersionV }}: return _CW_{{ version | VersionV }}_CharWidth(c);
+#endif
+
+{% endfor %}
+	default: return -1;
+	}
+}

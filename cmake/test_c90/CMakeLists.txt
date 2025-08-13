@@ -51,4 +51,4 @@ INSTALL(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/test_c90" DESTINATION ".")
 
 ########
 
-ADD_TEST(NAME test_c90 COMMAND $<TARGET_FILE:${target}>)
+ADD_TEST(NAME test_c90 COMMAND $<TARGET_FILE:${target}> "${test_dir}/data")

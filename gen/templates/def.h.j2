@@ -1,0 +1,16 @@
+/*
+	Copyright (c) 2025 didarpin
+	SPDX-License-Identifier: MIT
+*/
+
+#pragma once
+
+#ifndef CW_ENABLE_ALL
+#define CW_ENABLE_ALL 1
+#endif
+{% for version in versions %}
+
+#ifndef CW_ENABLE_{{ version | VersionV }}
+#define CW_ENABLE_{{ version | VersionV }} CW_ENABLE_ALL
+#endif
+{% endfor %}

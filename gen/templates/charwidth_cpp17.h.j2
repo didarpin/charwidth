@@ -1,0 +1,72 @@
+/*
+	Copyright (c) 2025 didarpin
+	SPDX-License-Identifier: MIT
+*/
+
+#pragma once
+
+#include <algorithm>
+
+#include "def.h"
+
+namespace charwidth {
+
+enum Version {
+	V_None = 0,
+{% for version in versions %}
+	V_{{ version | VersionV }} = {{ version | VersionI }},
+{% endfor %}
+};
+
+using c32 = char32_t;
+
+}
+
+namespace charwidth::details {
+
+struct Node {
+	c32 low;
+	c32 high;
+};
+
+inline Version version = V_None;
+
+}
+{% for version in versions %}
+
+#if CW_ENABLE_{{ version | VersionV }} == 1
+#include "{{ version }}/cpp17.h"
+#endif
+{% endfor %}
+
+namespace charwidth {
+
+inline void SetVersion(Version version) {
+	details::version = version;
+}
+
+inline int SetAmbiguousWidth(int w) {
+	switch (details::version) {
+{% for version in versions %}
+#if CW_ENABLE_7_0_0 == 1
+	case V_{{ version | VersionV }}: return v_{{ version | VersionV }}::SetAmbiguousWidth(w), 0;
+#endif
+
+{% endfor %}
+	default: return -1;
+	}
+}
+
+inline int CharWidth(c32 c) {
+	switch (details::version) {
+{% for version in versions %}
+#if CW_ENABLE_7_0_0 == 1
+	case V_{{ version | VersionV }}: return v_{{ version | VersionV }}::CharWidth(c);
+#endif
+
+{% endfor %}
+	default: return -1;
+	}
+}
+
+}

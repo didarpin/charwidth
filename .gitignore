@@ -1,15 +1,19 @@
 *
 
 !/.gitignore   
-!/CMakeLists.txt
 !/README.md
+!/LICENSE
 !/version
+!/CMakeLists.txt
 
 !/.github/
 !/.github/**/*
 
 !/cmake/       
 !/cmake/**/*   
+
+!/gen/       
+!/gen/**/*   
 
 !/src/       
 !/src/**/*   

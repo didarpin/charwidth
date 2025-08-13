@@ -1,0 +1,58 @@
+/*
+	Copyright (c) 2025 didarpin
+	SPDX-License-Identifier: MIT
+*/
+
+#pragma once
+
+namespace charwidth {
+namespace v_{{ version | VersionV }} {
+
+using Node = details::Node;
+
+class G {
+public:
+	static constexpr Node kWidth1[{{ width_1 | length }}] = {
+		{% for n in width_1 %}
+		{{ "{" }}{{ "0x%x" | format(n[0]) }}, {{ "0x%x" | format(n[1]) }}{{ "}" }},
+		{% endfor %}
+	};
+	
+	static constexpr Node kWidth2[{{ width_2 | length }}] = {
+		{% for n in width_2 %}
+		{{ "{" }}{{ "0x%x" | format(n[0]) }}, {{ "0x%x" | format(n[1]) }}{{ "}" }},
+		{% endfor %}
+	};
+
+	static constexpr Node kWidthAmbiguous[{{ width_ambiguous | length }}] = {
+		{% for n in width_ambiguous %}
+		{{ "{" }}{{ "0x%x" | format(n[0]) }}, {{ "0x%x" | format(n[1]) }}{{ "}" }},
+		{% endfor %}
+	};
+
+	static int ambiguous_width;
+};
+
+constexpr Node G::kWidth1[{{ width_1 | length }}];
+constexpr Node G::kWidth2[{{ width_2 | length }}];
+constexpr Node G::kWidthAmbiguous[{{ width_ambiguous | length }}];
+int G::ambiguous_width = 1;
+
+inline bool IsInRanges(Node const* ranges, size_t size, c32 c) {
+	auto iter = std::lower_bound(ranges, ranges + size, c, [](Node const& v, c32 c) { return v.high < c; });
+	return (iter != (ranges + size)) && (c >= iter->low);
+}
+
+inline void SetAmbiguousWidth(int w) {
+	G::ambiguous_width = w;
+}
+
+inline int CharWidth(c32 c) {
+	if (IsInRanges(G::kWidth1, {{ width_1 | length }}, c)) return 1;
+	if (IsInRanges(G::kWidth2, {{ width_2 | length }}, c)) return 2;
+	if (IsInRanges(G::kWidthAmbiguous, {{ width_ambiguous | length }}, c)) return G::ambiguous_width;
+	return 0;
+}
+
+}
+}

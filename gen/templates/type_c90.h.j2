@@ -1,0 +1,15 @@
+/*
+	Copyright (c) 2025 didarpin
+	SPDX-License-Identifier: MIT
+*/
+
+#pragma once
+
+typedef unsigned int cw_c32;
+
+typedef enum CW_Version {
+	CW_V_None = 0,
+{% for version in versions %}
+	CW_V_{{ version | VersionV }} = {{ version | VersionI }},
+{% endfor %}
+} CW_Version;

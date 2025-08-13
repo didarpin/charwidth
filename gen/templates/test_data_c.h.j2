@@ -1,0 +1,53 @@
+/*
+	Copyright (c) 2025 didarpin
+	SPDX-License-Identifier: MIT
+*/
+
+#pragma once
+
+typedef struct VDN {
+	cw_c32 c;
+	int width;
+} VDN;
+
+typedef struct DN {
+	CW_Version version;
+	VDN const* data;
+} DN;
+{% for version, d in data.items() %}
+
+VDN const data_{{ version | VersionV }}[] = {
+	{% for n in d.width_0 %}
+	{{ "{" }}{{ "0x%x" | format(n[0]) }}, 0{{ "}" }},
+		{% if n[0] != n[1] %}
+	{{ "{" }}{{ "0x%x" | format(n[1]) }}, 0{{ "}" }},
+		{% endif %}
+	{% endfor %}
+	{% for n in d.width_1 %}
+	{{ "{" }}{{ "0x%x" | format(n[0]) }}, 1{{ "}" }},
+		{% if n[0] != n[1] %}
+	{{ "{" }}{{ "0x%x" | format(n[1]) }}, 1{{ "}" }},
+		{% endif %}
+	{% endfor %}
+	{% for n in d.width_2 %}
+	{{ "{" }}{{ "0x%x" | format(n[0]) }}, 2{{ "}" }},
+		{% if n[0] != n[1] %}
+	{{ "{" }}{{ "0x%x" | format(n[1]) }}, 2{{ "}" }},
+		{% endif %}
+	{% endfor %}
+	{% for n in d.width_ambiguous %}
+	{{ "{" }}{{ "0x%x" | format(n[0]) }}, 1{{ "}" }},
+		{% if n[0] != n[1] %}
+	{{ "{" }}{{ "0x%x" | format(n[1]) }}, 1{{ "}" }},
+		{% endif %}
+	{% endfor %}
+	{{ "{" }}0, -1{{ "}" }},
+};
+{% endfor %}
+
+DN const data[] = {
+{% for version in data %}
+	{{ "{" }}CW_V_{{ version | VersionV }}, data_{{ version | VersionV }}{{ "}" }},
+{% endfor %}
+	{{ "{" }}CW_V_None, NULL{{ "}" }},
+};

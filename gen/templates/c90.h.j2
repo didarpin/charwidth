@@ -1,0 +1,54 @@
+/*
+	Copyright (c) 2025 didarpin
+	SPDX-License-Identifier: MIT
+*/
+
+#pragma once
+
+static _CW_Node const _cw_{{ version | VersionV }}_kWidth1[{{ width_1 | length }}] = {
+	{% for n in width_1 %}
+	{{ "{" }}{{ "0x%x" | format(n[0]) }}, {{ "0x%x" | format(n[1]) }}{{ "}" }},
+	{% endfor %}
+};
+
+static _CW_Node const _cw_{{ version | VersionV }}_kWidth2[{{ width_2 | length }}] = {
+	{% for n in width_2 %}
+	{{ "{" }}{{ "0x%x" | format(n[0]) }}, {{ "0x%x" | format(n[1]) }}{{ "}" }},
+	{% endfor %}
+};
+
+static _CW_Node const _cw_{{ version | VersionV }}_kWidthAmbiguous[{{ width_ambiguous | length }}] = {
+	{% for n in width_ambiguous %}
+	{{ "{" }}{{ "0x%x" | format(n[0]) }}, {{ "0x%x" | format(n[1]) }}{{ "}" }},
+	{% endfor %}
+};
+
+static int _cw_{{ version | VersionV }}_ambiguous_width = 1;
+
+static int _CW_{{ version | VersionV }}_IsInRanges(_CW_Node const* ranges, size_t size, cw_c32 c) {
+	size_t low = 0;
+	size_t high = size;
+	size_t mid;
+	if (c < ranges[0].low) return 0;
+	if (c > ranges[size - 1].high) return 0;
+	while (1) {
+		mid = ((high - low) / 2) + low;
+		if ((c >= ranges[mid].low) && (c <= ranges[mid].high)) return 1;
+		if (mid == low) return 0;
+		if (c < ranges[mid].low) high = mid;
+		else low = mid;
+	}
+	return 0;
+}
+
+static int _CW_{{ version | VersionV }}_SetAmbiguousWidth(int w) {
+	_cw_{{ version | VersionV }}_ambiguous_width = w;
+	return 0;
+}
+
+static int _CW_{{ version | VersionV }}_CharWidth(cw_c32 c) {
+	if (_CW_{{ version | VersionV }}_IsInRanges(_cw_{{ version | VersionV }}_kWidth1, {{ width_1 | length }}, c)) return 1;
+	if (_CW_{{ version | VersionV }}_IsInRanges(_cw_{{ version | VersionV }}_kWidth2, {{ width_2 | length }}, c)) return 2;
+	if (_CW_{{ version | VersionV }}_IsInRanges(_cw_{{ version | VersionV }}_kWidthAmbiguous, {{ width_ambiguous | length }}, c)) return _cw_{{ version | VersionV }}_ambiguous_width;
+	return 0;
+}
