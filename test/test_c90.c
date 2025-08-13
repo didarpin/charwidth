@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "s_c.h"
 #include "../src/charwidth_c90.h"
 
 #define ASSERT(condition, fmt)											\
@@ -23,8 +24,7 @@
 char const* data_dir;
 
 void TestV(CW_Version cm_version, char const* s_version);
-void TestF(CW_Version cm_version, int width, char const* file);
-void SPrintF(char* str, size_t size, char const* format, ...);
+void TestF(char const* file, int width);
 
 int main(int argc, char** argv) {
 	ASSERT(argc == 2, ("invalid argument"));
@@ -55,25 +55,25 @@ void TestV(CW_Version cm_version, char const* s_version) {
 	CW_SetAmbiguousWidth(1);
 	
 	SPrintF(file, sizeof(file), "%s/%s_0.dat", data_dir, s_version);
-	TestF(cm_version, 0, file);
+	TestF(file, 0);
 
 	SPrintF(file, sizeof(file), "%s/%s_1.dat", data_dir, s_version);
-	TestF(cm_version, 1, file);
+	TestF(file, 1);
 
 	SPrintF(file, sizeof(file), "%s/%s_2.dat", data_dir, s_version);
-	TestF(cm_version, 2, file);
+	TestF(file, 2);
 
 	SPrintF(file, sizeof(file), "%s/%s_ambiguous.dat", data_dir, s_version);
-	TestF(cm_version, 1, file);
+	TestF(file, 1);
 }
 
-void TestF(CW_Version cm_version, int width, char const* file) {
+void TestF(char const* file, int width) {
 #define N 1024
 	FILE* fd;
 	cw_c32 cs[N];
 	size_t i, size;
 
-	fd = fopen(file, "rb");
+	fd = FOpen(file, "rb");
 	ASSERT(fd != NULL, ("open file error: %s", file));
 
 	while (1) {
@@ -87,14 +87,4 @@ void TestF(CW_Version cm_version, int width, char const* file) {
 
 	fclose(fd);
 #undef N
-}
-
-void SPrintF(char* str, size_t size, char const* format, ...) {
-	va_list ap;
-	va_start(ap, format);
-#if _MSC_VER
-	vsprintf_s(str, size, format, ap);
-#else
-	vsprintf(str, format, ap);
-#endif
 }

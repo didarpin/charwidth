@@ -22,7 +22,7 @@
 std::string data_dir;
 
 void TestV(charwidth::Version cm_version, std::string const& s_version);
-void TestF(charwidth::Version cm_version, int width, std::string const& file);
+void TestF(std::string const& file, int width);
 
 int main(int argc, char** argv) {
 	ASSERT(argc == 2, ("invalid argument"));
@@ -52,19 +52,19 @@ void TestV(charwidth::Version cm_version, std::string const& s_version) {
 	charwidth::SetAmbiguousWidth(1);
 	
 	file = data_dir + "/" + s_version + "_0.dat", 
-	TestF(cm_version, 0, file);
+	TestF(file, 0);
 
 	file = data_dir + "/" + s_version + "_1.dat", 
-	TestF(cm_version, 1, file);
+	TestF(file, 1);
 
 	file = data_dir + "/" + s_version + "_2.dat", 
-	TestF(cm_version, 2, file);
+	TestF(file, 2);
 
 	file = data_dir + "/" + s_version + "_ambiguous.dat", 
-	TestF(cm_version, 1, file);
+	TestF(file, 1);
 }
 
-void TestF(charwidth::Version cm_version, int width, std::string const& file) {
+void TestF(std::string const& file, int width) {
 	std::ifstream ifs;
 
 	ifs.open(file.c_str(), std::ios_base::in | std::ios_base::binary);
