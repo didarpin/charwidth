@@ -24,9 +24,7 @@ typedef struct _CW_Node {
 #endif
 {% endfor %}
 
-#if defined(_MSC_VER)
-    #define UNUSED __declspec(unused)
-#else
+#if defined(__GNUC__) || defined(__clang__)
     #define UNUSED __attribute__((unused))
 #endif
 

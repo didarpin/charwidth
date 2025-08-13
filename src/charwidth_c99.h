@@ -63,9 +63,7 @@ typedef struct _CW_Node {
 #include "17.0.0/c99.h"
 #endif
 
-#if defined(_MSC_VER)
-    #define UNUSED __declspec(unused)
-#else
+#if defined(__GNUC__) || defined(__clang__)
     #define UNUSED __attribute__((unused))
 #endif
 
