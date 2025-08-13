@@ -3,6 +3,7 @@
 	SPDX-License-Identifier: MIT
 */
 
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -23,6 +24,7 @@ char const* data_dir;
 
 void TestV(CW_Version cm_version, char const* s_version);
 void TestF(CW_Version cm_version, int width, char const* file);
+void SPrintF(char* str, size_t size, char const* format, ...);
 
 int main(int argc, char** argv) {
 	ASSERT(argc == 2, "invalid argument");
@@ -52,36 +54,47 @@ void TestV(CW_Version cm_version, char const* s_version) {
 	CW_SetVersion(cm_version);
 	CW_SetAmbiguousWidth(2);
 	
-	sprintf(file, "%s/%s_0.dat", data_dir, s_version);
+	SPrintF(file, sizeof(file), "%s/%s_0.dat", data_dir, s_version);
 	TestF(cm_version, 0, file);
 
-	sprintf(file, "%s/%s_1.dat", data_dir, s_version);
+	SPrintF(file, sizeof(file), "%s/%s_1.dat", data_dir, s_version);
 	TestF(cm_version, 1, file);
 
-	sprintf(file, "%s/%s_2.dat", data_dir, s_version);
+	SPrintF(file, sizeof(file), "%s/%s_2.dat", data_dir, s_version);
 	TestF(cm_version, 2, file);
 
-	sprintf(file, "%s/%s_ambiguous.dat", data_dir, s_version);
+	SPrintF(file, sizeof(file), "%s/%s_ambiguous.dat", data_dir, s_version);
 	TestF(cm_version, 2, file);
 }
 
 void TestF(CW_Version cm_version, int width, char const* file) {
-	unsigned int const n = 1024;
+#define N 1024
 	FILE* fd;
-	cw_c32 cs[n];
+	cw_c32 cs[N];
 	size_t i, size;
 
 	fd = fopen(file, "rb");
 	ASSERT(fd != NULL, "open file error: %s", file);
 
 	while (1) {
-		size = fread(cs, 4, n, fd);
-		if (size < n) ASSERT(feof(fd), "read file error: %s", file);
+		size = fread(cs, 4, N, fd);
+		if (size < N) ASSERT(feof(fd), "read file error: %s", file);
 		for (i = 0; i < size; ++i) {
 			ASSERT(CW_CharWidth(cs[i]) == width, "CharWidth error: 0x%x, %d", cs[i], width);
 		}
-		if (size < n) break;
+		if (size < N) break;
 	}
 
 	fclose(fd);
+#undef N
+}
+
+void SPrintF(char* str, size_t size, char const* format, ...) {
+	va_list ap;
+	va_start(ap, format);
+#if _MSC_VER
+	vsprintf_s(str, size, format, ap);
+#else
+	vsprintf(str, format, ap);
+#endif
 }
