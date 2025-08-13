@@ -64,9 +64,9 @@ typedef struct _CW_Node {
 #endif
 
 #if defined(_MSC_VER)
-    #define UNUSED __declspec(unused)
+    #define UNUSED
 #else
-    #define UNUSED __attribute__((unused))
+    #define UNUSED
 #endif
 
 static CW_Version _cw_version = CW_V_None;
