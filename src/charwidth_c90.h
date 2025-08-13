@@ -68,6 +68,8 @@ typedef struct _CW_Node {
 
 #if defined(__GNUC__) || defined(__clang__)
     #define UNUSED __attribute__((unused))
+#else
+	#define UNUSED
 #endif
 
 static CW_Version _cw_version = CW_V_None;
