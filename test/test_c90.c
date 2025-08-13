@@ -80,7 +80,7 @@ void TestF(char const* file, int width) {
 		size = fread(cs, 4, N, fd);
 		if (size < N) ASSERT(feof(fd), ("read file error: %s", file));
 		for (i = 0; i < size; ++i) {
-			ASSERT(CW_CharWidth(cs[i]) == width, ("CharWidth error: 0x%x, %d", cs[i], width));
+			ASSERT(CW_CharWidth(cs[i]) == width, ("CharWidth error: 0x%x, %d", (cw_u32)cs[i], width));
 		}
 		if (size < N) break;
 	}

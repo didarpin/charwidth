@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <algorithm>
 
 #include "def.h"
@@ -28,6 +29,7 @@ enum Version {
 };
 
 using c32 = char32_t;
+using u32 = uint32_t;
 
 }
 

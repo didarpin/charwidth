@@ -28,6 +28,7 @@ enum Version {
 };
 
 typedef unsigned int c32;
+typedef unsigned int u32;
 
 }
 

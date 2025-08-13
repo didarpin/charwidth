@@ -6,6 +6,7 @@
 #pragma once
 
 typedef unsigned int cw_c32;
+typedef unsigned int cw_u32;
 
 typedef enum CW_Version {
 	CW_V_None = 0,
