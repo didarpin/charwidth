@@ -78,7 +78,7 @@ void TestF(std::string const& file, int width) {
 		if (!ifs) ASSERT(ifs.eof(), "read file error: %s", file.c_str());
 		size_t size = ifs.gcount() / 4;
 		for (size_t i = 0; i < size; ++i) {
-			ASSERT(charwidth::CharWidth(cs[i]) == width, "CharWidth error: 0x%x, %d", cs[i], width);
+			ASSERT(charwidth::CharWidth(cs[i]) == width, "CharWidth error: 0x%x, %d", static_cast<uint32_t>(cs[i]), width);
 		}
 		if (!ifs) break;
 	}

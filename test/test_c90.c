@@ -52,7 +52,7 @@ void TestV(CW_Version cm_version, char const* s_version) {
 	char file[1024];
 
 	CW_SetVersion(cm_version);
-	CW_SetAmbiguousWidth(1);
+	/*CW_SetAmbiguousWidth(1);*/
 	
 	SPrintF(file, sizeof(file), "%s/%s_0.dat", data_dir, s_version);
 	TestF(file, 0);
