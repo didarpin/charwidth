@@ -1,39 +1,86 @@
-.md-typeset h1 {
-	color: #ebcb8b;
+[data-md-color-scheme="default"] {
+	.md-typeset h1 {
+		color: #757575;
+	}
+
+	.md-typeset h2 {
+		color: #bf616a;
+	}
+
+	.md-typeset h3 {
+		color: #ebcb8b;
+	}
+
+	.md-typeset h4 {
+		color: #a3be8c;
+	}
+
+	strong {
+		color: #f6a13f !important;
+		font-weight: 900 !important;
+	}
+
+	.md-typeset .admonition.example,
+	.md-typeset details.example {
+		border-color: #448aff;
+	}
+
+	.md-typeset .example > .admonition-title,
+	.md-typeset .example > summary {
+		background-color: #448aff1a;
+	}
+
+	.md-typeset .example > .admonition-title::before,
+	.md-typeset .example > summary::before {
+		background-color: #448aff;
+	}
+
+	--md-code-hl-constant-color: #5261f6;
+	--md-code-hl-function-color: #f29b3b;
+	--md-code-hl-keyword-color: #5261f6;
+	--md-code-hl-number-color: #c655cb;
+	--md-code-hl-special-color: #5261f6;
+	--md-code-hl-string-color: #b75450;
+	--md-code-hl-operator-color: #759735;
 }
 
-.md-typeset h2 {
-	color: #bf616a;
-}
+[data-md-color-scheme="slate"] {
+	.md-typeset h1 {
+		color: #ebcb8b;
+	}
 
-.md-typeset h3 {
-	color: #ebcb8b;
-}
+	.md-typeset h2 {
+		color: #bf616a;
+	}
 
-.md-typeset h4 {
-	color: #a3be8c;
-}
+	.md-typeset h3 {
+		color: #ebcb8b;
+	}
 
-strong {
-	color: #ebcb8b !important;
-	font-weight: 900 !important;
-}
+	.md-typeset h4 {
+		color: #a3be8c;
+	}
 
-.md-typeset .admonition.example,
-.md-typeset details.example {
-	border-color: #448aff;
-}
+	strong {
+		color: #ebcb8b !important;
+		font-weight: 900 !important;
+	}
 
-.md-typeset .example > .admonition-title,
-.md-typeset .example > summary {
-	background-color: #448aff1a;
-}
-.md-typeset .example > .admonition-title::before,
-.md-typeset .example > summary::before {
-	background-color: #448aff;
-}
+	.md-typeset .admonition.example,
+	.md-typeset details.example {
+		border-color: #448aff;
+	}
 
-:root > * {
+	.md-typeset .example > .admonition-title,
+	.md-typeset .example > summary {
+		background-color: #448aff1a;
+	}
+
+	.md-typeset .example > .admonition-title::before,
+	.md-typeset .example > summary::before {
+		background-color: #448aff;
+	}
+
 	--md-code-hl-constant-color: #5f87ff;
 	--md-code-hl-function-color: #f29b3b;
 	--md-code-hl-keyword-color: #5f87ff;
