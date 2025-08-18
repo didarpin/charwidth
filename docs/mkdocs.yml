@@ -1,0 +1,104 @@
+site_name: "charwidth 帮助文档"
+site_url: "https://didarpin.github.io/charwidth"
+repo_url: "https://github.com/didarpin/charwidth"
+repo_name: "didarpin/charwidth"
+
+nav:
+  - 构建和安装: "build_and_install.md"
+  - 使用:
+    - C语言:
+      - C89/90标准: "usage/c/c90.md"
+      - C99及以上标准: "usage/c/c99.md"
+    - C++语言:
+      - C++98标准: "usage/cpp/cpp98.md"
+      - C++11/C++14标准: "usage/cpp/cpp11.md"
+      - C++17及以上标准: "usage/cpp/cpp17.md"
+  - API:
+    - 宏: "api/macro.md"
+    - 头文件: "api/header_file.md"
+    - C语言:
+      - CW_SetVersion: "api/c/CW_SetVersion.md"
+      - CW_TreatAmbiguousAsWide: "api/c/CW_TreatAmbiguousAsWide.md"
+      - CW_TreatAmbiguousAsNarrow: "api/c/CW_TreatAmbiguousAsNarrow.md"
+      - CW_CharWidth: "api/c/CW_CharWidth.md"
+      - 类型: "api/c/type.md"
+    - C++语言:
+      - SetVersion: "api/cpp/SetVersion.md"
+      - TreatAmbiguousAsWide: "api/cpp/TreatAmbiguousAsWide.md"
+      - TreatAmbiguousAsNarrow: "api/cpp/TreatAmbiguousAsNarrow.md"
+      - CharWidth: "api/cpp/CharWidth.md"
+      - 类型: "api/cpp/type.md"
+
+theme:
+  name: "material"
+  language: "zh"
+  palette:
+    scheme: "slate"
+  features:
+    - "content.code.annotate"
+    - "content.code.copy"
+    - "content.tooltips"
+    - "navigation.expand"
+    - "navigation.indexes"
+    - "navigation.instant"
+    - "navigation.top"
+    - "navigation.tracking"
+    - "search.suggest"
+    - "toc.follow"
+
+plugins:
+  - search:
+     lang: zh
+  - macros
+  - glightbox
+
+markdown_extensions:
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+  # Python Markdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.blocks.caption
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: "__span"
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+copyright: "Copyright &copy; 2025 didarpin"
+
+extra:
+  generator: false
+  analytics:
+    provider: google
+    property: !ENV GOOGLE_ANALYTICS_KEY
+
+extra_css:
+  - "_data/extra.css"

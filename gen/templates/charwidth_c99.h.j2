@@ -11,8 +11,8 @@
 #include "type_c99.h"
 
 typedef struct _CW_Node {
-	cw_c32 low;
-	cw_c32 high;
+	cw_u32 low;
+	cw_u32 high;
 } _CW_Node;
 {% for version in versions %}
 
@@ -33,25 +33,28 @@ UNUSED static inline void CW_SetVersion(CW_Version version) {
 	_cw_version = version;
 }
 
-UNUSED static inline int CW_SetAmbiguousWidth(int w) {
-	switch (_cw_version) {
+UNUSED static inline void CW_TreatAmbiguousAsWide() {
 {% for version in versions %}
 #if CW_ENABLE_{{ version | VersionV }} == 1
-	case CW_V_{{ version | VersionV }}: return _CW_{{ version | VersionV }}_SetAmbiguousWidth(w), 0;
+	_CW_{{ version | VersionV }}_TreatAmbiguousAsWide();
 #endif
-
 {% endfor %}
-	default: return -1;
-	}
 }
 
-UNUSED static inline int CW_CharWidth(cw_c32 c) {
+UNUSED static inline void CW_TreatAmbiguousAsNarrow() {
+{% for version in versions %}
+#if CW_ENABLE_{{ version | VersionV }} == 1
+	_CW_{{ version | VersionV }}_TreatAmbiguousAsNarrow();
+#endif
+{% endfor %}
+}
+
+UNUSED static inline int CW_CharWidth(cw_u32 c) {
 	switch (_cw_version) {
 {% for version in versions %}
 #if CW_ENABLE_{{ version | VersionV }} == 1
 	case CW_V_{{ version | VersionV }}: return _CW_{{ version | VersionV }}_CharWidth(c);
 #endif
-
 {% endfor %}
 	default: return -1;
 	}

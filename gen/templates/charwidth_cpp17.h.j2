@@ -19,7 +19,6 @@ enum Version {
 {% endfor %}
 };
 
-using c32 = char32_t;
 using u32 = uint32_t;
 
 }
@@ -27,8 +26,8 @@ using u32 = uint32_t;
 namespace charwidth::details {
 
 struct Node {
-	c32 low;
-	c32 high;
+	u32 low;
+	u32 high;
 };
 
 inline Version version = V_None;
@@ -47,25 +46,28 @@ inline void SetVersion(Version version) {
 	details::version = version;
 }
 
-inline int SetAmbiguousWidth(int w) {
-	switch (details::version) {
+inline void TreatAmbiguousAsWide() {
 {% for version in versions %}
-#if CW_ENABLE_7_0_0 == 1
-	case V_{{ version | VersionV }}: return v_{{ version | VersionV }}::SetAmbiguousWidth(w), 0;
+#if CW_ENABLE_{{ version | VersionV }} == 1
+	v_{{ version | VersionV }}::TreatAmbiguousAsWide();
 #endif
-
 {% endfor %}
-	default: return -1;
-	}
 }
 
-inline int CharWidth(c32 c) {
+inline void TreatAmbiguousAsNarrow() {
+{% for version in versions %}
+#if CW_ENABLE_{{ version | VersionV }} == 1
+	v_{{ version | VersionV }}::TreatAmbiguousAsNarrow();
+#endif
+{% endfor %}
+}
+
+inline int CharWidth(u32 c) {
 	switch (details::version) {
 {% for version in versions %}
-#if CW_ENABLE_7_0_0 == 1
+#if CW_ENABLE_{{ version | VersionV }} == 1
 	case V_{{ version | VersionV }}: return v_{{ version | VersionV }}::CharWidth(c);
 #endif
-
 {% endfor %}
 	default: return -1;
 	}

@@ -976,7 +976,7 @@ static _CW_Node const _cw_7_0_0_kWidthAmbiguous[173] = {
 
 static int _cw_7_0_0_ambiguous_width = 1;
 
-static inline bool _CW_7_0_0_IsInRanges(_CW_Node const* ranges, size_t size, cw_c32 c) {
+static inline bool _CW_7_0_0_IsInRanges(_CW_Node const* ranges, size_t size, cw_u32 c) {
 	size_t low = 0;
 	size_t high = size;
 	size_t mid;
@@ -992,13 +992,17 @@ static inline bool _CW_7_0_0_IsInRanges(_CW_Node const* ranges, size_t size, cw_
 	return false;
 }
 
-static inline void _CW_7_0_0_SetAmbiguousWidth(int w) {
-	_cw_7_0_0_ambiguous_width = w;
+static inline void _CW_7_0_0_TreatAmbiguousAsWide() {
+	_cw_7_0_0_ambiguous_width = 2;
 }
 
-static inline int _CW_7_0_0_CharWidth(cw_c32 c) {
+static inline void _CW_7_0_0_TreatAmbiguousAsNarrow() {
+	_cw_7_0_0_ambiguous_width = 1;
+}
+
+static inline int _CW_7_0_0_CharWidth(cw_u32 c) {
 	if (_CW_7_0_0_IsInRanges(_cw_7_0_0_kWidth1, 752, c)) return 1;
 	if (_CW_7_0_0_IsInRanges(_cw_7_0_0_kWidth2, 35, c)) return 2;
 	if (_CW_7_0_0_IsInRanges(_cw_7_0_0_kWidthAmbiguous, 173, c)) return _cw_7_0_0_ambiguous_width;
-	return 0;
+	return (c <= 0x10ffff) ? 0 : -1;
 }

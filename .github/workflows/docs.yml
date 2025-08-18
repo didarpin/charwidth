@@ -1,0 +1,50 @@
+name: docs
+run-name: docs
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - '.github/workflow/docs.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - '.github/workflow/docs.yml'
+  workflow_dispatch:
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    name: build docs
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+          cache: pip
+          cache-dependency-path: docs/requirements.txt
+
+      - name: Install python dependencies
+        run: |
+          pip install -r docs/requirements.txt
+
+      - name: Build docs
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GOOGLE_ANALYTICS_KEY: ${{ secrets.GOOGLE_ANALYTICS_KEY }}
+        run: mkdocs build -s -c -f docs/mkdocs.yml -d ../site
+
+      - name: Upload pages to artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          site: site
+
+      - name: Deploy to github pages
+        uses: actions/deploy-pages@v4

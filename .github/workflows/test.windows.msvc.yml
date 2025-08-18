@@ -6,6 +6,8 @@ on:
     branches:
       - main
   pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -13,12 +15,14 @@ jobs:
     runs-on: windows-latest
     name: test
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Build
         run: |
           mkdir build
           cmake -S . -B build -DCMAKE_VERBOSE_MAKEFILE=ON -Dcharwidth_project=ON -Dcharwidth_project_lib=OFF
           cmake --build build --config Release
-      - name: Test
+
+      - name: Run test
         run: ctest --test-dir build -C Release -V

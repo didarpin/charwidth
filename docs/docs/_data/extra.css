@@ -1,0 +1,44 @@
+.md-typeset h1 {
+	color: #ebcb8b;
+}
+
+.md-typeset h2 {
+	color: #bf616a;
+}
+
+.md-typeset h3 {
+	color: #ebcb8b;
+}
+
+.md-typeset h4 {
+	color: #a3be8c;
+}
+
+strong {
+	color: #ebcb8b !important;
+	font-weight: 900 !important;
+}
+
+.md-typeset .admonition.example,
+.md-typeset details.example {
+	border-color: #448aff;
+}
+
+.md-typeset .example > .admonition-title,
+.md-typeset .example > summary {
+	background-color: #448aff1a;
+}
+.md-typeset .example > .admonition-title::before,
+.md-typeset .example > summary::before {
+	background-color: #448aff;
+}
+
+:root > * {
+	--md-code-hl-constant-color: #5f87ff;
+	--md-code-hl-function-color: #f29b3b;
+	--md-code-hl-keyword-color: #5f87ff;
+	--md-code-hl-number-color: #df75dc;
+	--md-code-hl-special-color: #5f87ff;
+	--md-code-hl-string-color: #d16c6c;
+	--md-code-hl-operator-color: #a0d04e;
+}

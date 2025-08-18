@@ -1261,20 +1261,24 @@ inline constexpr Node kWidthAmbiguous[179] = {
 
 inline int ambiguous_width = 1;
 
-inline bool IsInRanges(Node const* ranges, size_t size, c32 c) {
-	auto iter = std::lower_bound(ranges, ranges + size, c, [](Node const& v, c32 c) { return v.high < c; });
+inline bool IsInRanges(Node const* ranges, size_t size, u32 c) {
+	auto iter = std::lower_bound(ranges, ranges + size, c, [](Node const& v, u32 c) { return v.high < c; });
 	return (iter != (ranges + size)) && (c >= iter->low);
 }
 
-inline void SetAmbiguousWidth(int w) {
-	ambiguous_width = w;
+inline void TreatAmbiguousAsWide() {
+	ambiguous_width = 2;
 }
 
-inline int CharWidth(c32 c) {
+inline void TreatAmbiguousAsNarrow() {
+	ambiguous_width = 1;
+}
+
+inline int CharWidth(u32 c) {
 	if (IsInRanges(kWidth1, 940, c)) return 1;
 	if (IsInRanges(kWidth2, 122, c)) return 2;
 	if (IsInRanges(kWidthAmbiguous, 179, c)) return ambiguous_width;
-	return 0;
+	return (c <= 0x10ffff) ? 0 : -1;
 }
 
 }

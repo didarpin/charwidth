@@ -52,7 +52,7 @@ void TestV(CW_Version cm_version, char const* s_version) {
 	char file[1024];
 
 	CW_SetVersion(cm_version);
-	CW_SetAmbiguousWidth(2);
+	CW_TreatAmbiguousAsWide();
 	
 	SPrintF(file, sizeof(file), "%s/%s_0.dat", data_dir, s_version);
 	TestF(file, 0);
@@ -70,7 +70,7 @@ void TestV(CW_Version cm_version, char const* s_version) {
 void TestF(char const* file, int width) {
 #define N 1024
 	FILE* fd;
-	cw_c32 cs[N];
+	cw_u32 cs[N];
 	size_t i, size;
 
 	fd = FOpen(file, "rb");

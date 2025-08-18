@@ -33,6 +33,10 @@
 #define CW_ENABLE_12_0_0 CW_ENABLE_ALL
 #endif
 
+#ifndef CW_ENABLE_12_1_0
+#define CW_ENABLE_12_1_0 CW_ENABLE_ALL
+#endif
+
 #ifndef CW_ENABLE_13_0_0
 #define CW_ENABLE_13_0_0 CW_ENABLE_ALL
 #endif

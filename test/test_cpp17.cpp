@@ -49,7 +49,7 @@ void TestV(charwidth::Version cm_version, std::string const& s_version) {
 	std::string file;
 
 	charwidth::SetVersion(cm_version);
-	charwidth::SetAmbiguousWidth(2);
+	charwidth::TreatAmbiguousAsWide();
 	
 	file = data_dir + "/" + s_version + "_0.dat", 
 	TestF(file, 0);
@@ -71,14 +71,14 @@ void TestF(std::string const& file, int width) {
 	ASSERT(ifs.is_open(), "open file error: %s", file.c_str());
 
 	unsigned int const n = 1024;
-	charwidth::c32 cs[n];
+	charwidth::u32 cs[n];
 
 	while (1) {
 		ifs.read(reinterpret_cast<char*>(cs), n * 4);
 		if (!ifs) ASSERT(ifs.eof(), "read file error: %s", file.c_str());
 		size_t size = ifs.gcount() / 4;
 		for (size_t i = 0; i < size; ++i) {
-			ASSERT(charwidth::CharWidth(cs[i]) == width, "CharWidth error: 0x%x, %d", static_cast<charwidth::u32>(cs[i]), width);
+			ASSERT(charwidth::CharWidth(cs[i]) == width, "CharWidth error: 0x%x, %d", cs[i], width);
 		}
 		if (!ifs) break;
 	}

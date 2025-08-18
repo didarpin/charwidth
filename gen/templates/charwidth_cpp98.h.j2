@@ -18,7 +18,6 @@ enum Version {
 {% endfor %}
 };
 
-typedef unsigned int c32;
 typedef unsigned int u32;
 
 }
@@ -32,8 +31,8 @@ void EnsureIntSize4(void) {
 }
 
 struct Node {
-	c32 low;
-	c32 high;
+	u32 low;
+	u32 high;
 };
 
 class G {
@@ -58,25 +57,28 @@ inline void SetVersion(Version version) {
 	details::G::version = version;
 }
 
-inline int SetAmbiguousWidth(int w) {
-	switch (details::G::version) {
+inline void TreatAmbiguousAsWide() {
 {% for version in versions %}
-#if CW_ENABLE_7_0_0 == 1
-	case V_{{ version | VersionV }}: return v_{{ version | VersionV }}::SetAmbiguousWidth(w), 0;
+#if CW_ENABLE_{{ version | VersionV }} == 1
+	v_{{ version | VersionV }}::TreatAmbiguousAsWide();
 #endif
-
 {% endfor %}
-	default: return -1;
-	}
 }
 
-inline int CharWidth(c32 c) {
+inline void TreatAmbiguousAsNarrow() {
+{% for version in versions %}
+#if CW_ENABLE_{{ version | VersionV }} == 1
+	v_{{ version | VersionV }}::TreatAmbiguousAsNarrow();
+#endif
+{% endfor %}
+}
+
+inline int CharWidth(u32 c) {
 	switch (details::G::version) {
 {% for version in versions %}
-#if CW_ENABLE_7_0_0 == 1
+#if CW_ENABLE_{{ version | VersionV }} == 1
 	case V_{{ version | VersionV }}: return v_{{ version | VersionV }}::CharWidth(c);
 #endif
-
 {% endfor %}
 	default: return -1;
 	}

@@ -25,7 +25,7 @@ static _CW_Node const _cw_{{ version | VersionV }}_kWidthAmbiguous[{{ width_ambi
 
 static int _cw_{{ version | VersionV }}_ambiguous_width = 1;
 
-static inline bool _CW_{{ version | VersionV }}_IsInRanges(_CW_Node const* ranges, size_t size, cw_c32 c) {
+static inline bool _CW_{{ version | VersionV }}_IsInRanges(_CW_Node const* ranges, size_t size, cw_u32 c) {
 	size_t low = 0;
 	size_t high = size;
 	size_t mid;
@@ -41,13 +41,17 @@ static inline bool _CW_{{ version | VersionV }}_IsInRanges(_CW_Node const* range
 	return false;
 }
 
-static inline void _CW_{{ version | VersionV }}_SetAmbiguousWidth(int w) {
-	_cw_{{ version | VersionV }}_ambiguous_width = w;
+static inline void _CW_{{ version | VersionV }}_TreatAmbiguousAsWide() {
+	_cw_{{ version | VersionV }}_ambiguous_width = 2;
 }
 
-static inline int _CW_{{ version | VersionV }}_CharWidth(cw_c32 c) {
+static inline void _CW_{{ version | VersionV }}_TreatAmbiguousAsNarrow() {
+	_cw_{{ version | VersionV }}_ambiguous_width = 1;
+}
+
+static inline int _CW_{{ version | VersionV }}_CharWidth(cw_u32 c) {
 	if (_CW_{{ version | VersionV }}_IsInRanges(_cw_{{ version | VersionV }}_kWidth1, {{ width_1 | length }}, c)) return 1;
 	if (_CW_{{ version | VersionV }}_IsInRanges(_cw_{{ version | VersionV }}_kWidth2, {{ width_2 | length }}, c)) return 2;
 	if (_CW_{{ version | VersionV }}_IsInRanges(_cw_{{ version | VersionV }}_kWidthAmbiguous, {{ width_ambiguous | length }}, c)) return _cw_{{ version | VersionV }}_ambiguous_width;
-	return 0;
+	return (c <= 0x10ffff) ? 0 : -1;
 }
